@@ -7,9 +7,15 @@
 
 - name: "Cloning tosca-submitter from git"
   git:
-    repo: https://github.com/micado-scale/component_submitter.git
+    repo: https://github.com/gregGes/component_submitter.git
     dest: /var/lib/micado/toscasubmitter/src
     version: "{{github_versions.toscasubmitter}}"
+
+- name: "Cloning security-policy-manager from git"
+  git:
+    repo: https://github.com/micado-scale/component-security-policy-manager.git
+    dest: /var/lib/micado/securitypolicymanager/src
+    version: "{{github_versions.securitypolicymanager}}"
 
 - name: 'Installing mictl dependencies'
   pip:

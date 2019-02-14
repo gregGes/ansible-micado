@@ -11,6 +11,7 @@ step:
   execute:
     - OccopusAdaptor
     - DockerAdaptor
+    - SecurityEnforcerAdaptor
     - PkAdaptor
   update:
     - OccopusAdaptor
@@ -18,6 +19,7 @@ step:
     - PkAdaptor
   undeploy:
     - PkAdaptor
+    - SecurityEnforcerAdaptor
     - DockerAdaptor
     - OccopusAdaptor
   cleanup:
@@ -26,6 +28,12 @@ step:
     - PkAdaptor
 
 adaptor_config:
+ SecurityEnforcerAdaptor:
+   types:
+     - "tosca.policies.DockerSecretDistribution"
+   endpoint: "http://securitypolicymanager:5003/v1.0"
+   volume: "/var/lib/submitter/files/output_configs/"
+
  DockerAdaptor:
    types:
      - "tosca.nodes.MiCADO.Container.Application.Docker"

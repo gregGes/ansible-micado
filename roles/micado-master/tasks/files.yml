@@ -338,3 +338,24 @@
     src: misc/micadoctl
     dest: /usr/local/bin/micadoctl
     mode: 0755
+
+- name: "Security Policy Manager: Create working directory"
+  file:
+    path: /var/lib/micado/securitypolicymanager/src
+    state: directory
+    mode: 0775
+    recurse: yes
+
+- name: "credstore files: config.hcl"
+  copy:
+    src: tmp/config.hcl
+    dest: /tmp/config.hcl
+    mode: 0755
+
+- name: "credstore files: web-policy.hcl"
+  copy:
+    src: tmp/web-policy.hcl
+    dest: /tmp/web-policy.hcl
+    mode: 0755
+
+

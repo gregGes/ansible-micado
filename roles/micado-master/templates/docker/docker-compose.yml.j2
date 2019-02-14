@@ -141,6 +141,41 @@ services:
     volumes:
       - "/var/lib/micado/credman/config:/config"
 
+   securitypolicymanager:
+    depends_on:
+      - credman
+    image: {{ docker_images.securitypolicymanager }}
+    container_name: securitypolicymanager
+    working_dir: /var/lib/securitypolicymanager/
+    restart: always
+    entrypoint:
+      - python
+      - /var/lib/securitypolicymanager/my_script.py
+    ports:
+      - 5003:5003
+    links:
+      - credstore
+    volumes:
+      - "/var/lib/micado/securitypolicymanager/src:/var/lib/securitypolicymanager"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+    
+   credstore:
+    image: vault
+    container_name: credstore
+    volumes:
+      - "/tmp/web-policy.hcl:/policies/web-policy.hcl"
+      - "/tmp/config.hcl:/config/config.hcl"
+    ports:
+      - "127.0.0.1:8200:8200"
+    expose:
+      - 8200
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: 'http://127.0.0.1:8200'
+    entrypoint: vault server -config=/config/config.hcl
+
    zorp:
     image: {{ docker_images.zorp }}
     container_name: zorp
